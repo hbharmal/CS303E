@@ -1,0 +1,101 @@
+class Stack(object):
+    def __init__(self):
+        self.stack = []
+
+    def push(self, item):
+        self.stack.append(item)
+
+    def pop(self):
+        return self.stack.pop()
+
+    def isEmpty(self):
+        return (len(self.stack) == 0)
+
+    def size(self):
+        return (len(self.stack))
+
+class Node(object):
+    def __init__(self, data = None):
+        self.left = None
+        self.right = None
+        self.data = data
+
+class Tree(object):
+    def __init__(self):
+        self.root = Node()
+        self.operators = ['+', '-', '*', '/']
+        self.prefix = []
+        self.postfix = []
+
+    def createTree(self, expr):
+        token_list = expr.strip().split()
+        stack = Stack()
+        current = self.root
+
+        for token in token_list:
+            if (token == "("):
+                new_node = Node()
+                current.left = new_node
+                stack.push(current)
+                current = current.left
+            elif (token in self.operators):
+                new_node = Node()
+                current.data = token 
+                current.right = new_node
+                stack.push(current)
+                current = current.right
+            elif (token == ")"):
+                current = stack.pop() if (not stack.isEmpty())
+            else:
+                current.data = token
+                current = stack.pop()
+
+
+    def evaluate(self, aNode):
+        current = aNode
+        if (current in self.operators):
+            operand1 = current.left.data
+            operand2 = current.right.data
+
+            left = self.evaluate(operand1)
+            right = self.evaluate(operand2)
+            operator = current.data
+
+            expression = str(left) + str(operator) + str(right)
+
+            result = eval(expression)
+
+        else:
+            result = current.data
+
+        return result
+
+    def preOrder(self, aNode):
+        current = aNode
+        if (current.data in self.operators):
+            self.prefix.append(current.data)
+            self.prefix.append(self.preOrder(current.left))
+            self.prefix.append(self.preOrder(current.right))
+        else:
+            self.prefix.append(current.data)
+
+    def postOrder(self, aNode):
+        if (current.data in self.operators):
+            self.postfix.append(self.preOrder(current.left))
+            self.postfix.append(self.preOrder(current.right))
+            self.postfix.append(current.data)
+        else:
+            self.postfix.append(current.data)
+
+def main():
+
+    expression_tree = Tree()
+    expression_tree.createTree("( ( 8 + 3 ) * ( 7 - 2 ) ) = 55")
+    evaluate = expression_tree.evaluate(expression_tree.root)
+    preorder = expression_tree.preOrder(expression_tree.root)
+    postOrder = expression_tree.postOrder(expression_tree.root)
+
+
+
+main()
+            

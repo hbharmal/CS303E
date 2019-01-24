@@ -1,0 +1,6 @@
+-2.5 3.4                           # coordinates of P
+1.2 -4.0                           # coordinates of Q
+2.0 1.0 3.0                        # center and radius of C
+2.0 1.0 3.0                        # center and radius of D
+1.0 4.0 9.0 -4.0                   # coord ul and lr of rectangle G
+-5.0 5.0 5.0 -5.0                  # coord ul and lr of rectangle H
